@@ -1,0 +1,20 @@
+{
+  "prompt": "Build a complete original printable 2-player game called Last Light, about rival lighthouse keepers rescuing boats before a storm. 10-15 minutes, simple enough to learn in two minutes. Use a small grid or track of spaces (maximum 12), 2 player pawns, 6 boat tokens, and at most 6 event cards in a deck. Include two distinctive lighthouse landmarks composed of editable primitive parts. Every physical resource must be included or explicitly listed as a household item. Rules must precisely cover setup, legal movement, turn order, rescue ownership/scoring, event timing, ending and tie breakers. No hidden mutable stats the editor cannot represent. Include a concrete short worked example in rules. This is a tabletop prototype with manual rules, not automated gameplay. Build now, no further questions; return complete proposal with at most 32 objects. Make the 3D view clear and printable footprints separated.",
+  "provider": "codex",
+  "model": "gpt-6-astra",
+  "message": "Last Light is ready to apply: a compact rescue race where moving toward a valuable boat costs time you may not have. This complete 26-object prototype includes printable components, editable lighthouses, and manual rules. Target playtime is 10–15 minutes; balance and duration still need playtesting.",
+  "critique": [
+    {
+      "issue": "Design hypothesis: early initiative could decide contested boats.",
+      "check": "The first player alternates each round. Play two games with starting colors reversed and check whether the opening player consistently wins."
+    },
+    {
+      "issue": "Design hypothesis: six rounds may feel tight or finish faster than 10 minutes.",
+      "check": "Time three games and record boats left at the end. If decisions feel rushed, test eight rounds by reshuffling the six events after round six."
+    },
+    {
+      "issue": "Design hypothesis: three-point boats may dominate opening choices.",
+      "check": "Record the first destination of each keeper. If openings repeat every game, test boat values of 2, 2, 1 on each coast."
+    }
+  ]
+}
