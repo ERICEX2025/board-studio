@@ -770,7 +770,7 @@
       "width": 3.2,
       "depth": 4.2,
       "height": 0.03,
-      "text": "QUIET WATER\nNo boat sinks.\nThis round, a Move action allows 1 or 2 orthogonal steps.\nEach keeper takes one action: Move, Rescue, or Pass.",
+      "text": "Quiet Water\nNo boat sinks.\nMove up to 2 orthogonal steps, or rescue a boat on your space, or pass. One action per keeper.",
       "deckId": "weather",
       "drawn": false,
       "order": 0,
@@ -789,7 +789,7 @@
       "width": 3.2,
       "depth": 4.2,
       "height": 0.03,
-      "text": "BREAK IN THE CLOUDS\nNo boat sinks.\nThis round, a Move action allows 1 or 2 orthogonal steps.\nEach keeper takes one action: Move, Rescue, or Pass.",
+      "text": "Break in the Clouds\nNo boat sinks.\nMove up to 2 orthogonal steps, or rescue a boat on your space, or pass. One action per keeper.",
       "deckId": "weather",
       "drawn": false,
       "order": 1,
@@ -808,7 +808,7 @@
       "width": 3.2,
       "depth": 4.2,
       "height": 0.03,
-      "text": "HEAVY FOG\nNo boat sinks.\nThis round, a Move action allows exactly 1 orthogonal step.\nRescue works normally. Each keeper takes one action.",
+      "text": "Heavy Fog\nNo boat sinks.\nMove up to 1 orthogonal step, or rescue a boat on your space, or pass. One action per keeper.",
       "deckId": "weather",
       "drawn": false,
       "order": 2,
@@ -827,7 +827,7 @@
       "width": 3.2,
       "depth": 4.2,
       "height": 0.03,
-      "text": "FOLLOWING WIND\nNo boat sinks.\nThis round, a Move action allows 1, 2, or 3 orthogonal steps.\nYou may turn between steps. Each keeper takes one action.",
+      "text": "Following Wind\nNo boat sinks.\nMove up to 3 orthogonal steps, or rescue a boat on your space, or pass. One action per keeper.",
       "deckId": "weather",
       "drawn": false,
       "order": 3,
@@ -846,7 +846,7 @@
       "width": 3.2,
       "depth": 4.2,
       "height": 0.03,
-      "text": "NORTHERN BREAKER\nBefore either turn: sink the lowest-numbered boat still on the sea grid. Ignore rescued and already sunk boats.\nThis round, Move allows 1 or 2 orthogonal steps.\nEach keeper takes one action.",
+      "text": "Northern Breaker\nBefore either turn, sink the lowest-numbered boat still on the board.\nMove up to 2 orthogonal steps, or rescue a boat on your space, or pass. One action per keeper.",
       "deckId": "weather",
       "drawn": false,
       "order": 4,
@@ -865,7 +865,7 @@
       "width": 3.2,
       "depth": 4.2,
       "height": 0.03,
-      "text": "SOUTHERN BREAKER\nBefore either turn: sink the highest-numbered boat still on the sea grid. Ignore rescued and already sunk boats.\nThis round, Move allows 1 or 2 orthogonal steps.\nEach keeper takes one action.",
+      "text": "Southern Breaker\nBefore either turn, sink the highest-numbered boat still on the board.\nMove up to 2 orthogonal steps, or rescue a boat on your space, or pass. One action per keeper.",
       "deckId": "weather",
       "drawn": false,
       "order": 5,
@@ -873,9 +873,109 @@
     }
   ],
   "rules": {
-    "setup": "LAST LIGHT — a manual tabletop prototype for 2 players; target 10–15 minutes.\n\nCOMPONENTS: 9 sea spaces, 2 keeper pawns, 6 numbered boat tokens, 2 lighthouse landmarks, and 6 event cards. The deck object is an editor holder, not an additional physical card. No dice, score counters, round counters, or household game resources are needed. For paper play, print and cut out the supplied spaces, tokens, lighthouse footprints, and six cards. Lighthouse footprints represent the landmarks; no 3D fabrication is required. Keep card backs indistinguishable.\n\nArrange the sea as a 3×3 grid. Read rows from top to bottom: A1 B1 C1 / A2 B2 C2 / A3 B3 C3. Only these nine spaces are playable. Place Amber's pawn on A2 and Violet's pawn on C2. Place boats as follows: 1 on A1 (3 points), 2 on B1 (2), 3 on C1 (1), 4 on A3 (1), 5 on B3 (2), and 6 on C3 (3). B2 starts empty.\n\nPlace Amber's lighthouse to the left and Violet's to the right, with clear table room beside each for rescued boats. Keep a separate common sunk-boat area below the grid. These areas require no extra components. Lighthouses never move and are not playable spaces.\n\nShuffle all six event cards face down beside the board. Leave room to their right for a face-up discard fan. Choose colors by agreement; Amber takes the first turn of round 1. For a return game, exchange colors. All boat numbers and point values remain public.",
-    "turns": "QUICK TEACH: Each round, reveal weather; then each keeper takes ONE action: move toward a boat or rescue the boat on their space. Rescued boats score their printed points. After six rounds, most points wins.\n\nROUND SEQUENCE\n1. Reveal the top event beside the deck. Apply any sinking instruction immediately, before either player acts. A sunk boat goes to the common sunk area and can never be rescued. A keeper on that boat's space stays there unharmed. If no boats remain on the grid, end the game immediately.\n2. Amber acts first in odd rounds (1, 3, 5); Violet acts first in even rounds (2, 4, 6). The other keeper then acts once. Count previously discarded events plus the current event to determine the round; no separate tracker is needed.\n3. After both actions, add the event to the face-up discard fan. Its movement effect expires. Begin the next round unless the ending condition has occurred. Never reshuffle during the standard game.\n\nON YOUR TURN, choose exactly ONE:\n• MOVE: Take between 1 and the current event's maximum number of steps. Each step enters a space sharing an edge with your current space. You may turn between steps and revisit spaces. No diagonals, wrapping, or leaving the grid. Boats and the other keeper do not block movement; both keepers may share a space. Moving never rescues a boat, even when you stop on it. Unused steps are lost.\n• RESCUE: If a boat is on your current space, move that boat directly beside your own lighthouse. You own it permanently. Your keeper stays on the sea space. You do not move before or after rescuing. You cannot rescue an adjacent boat, take an opponent's rescued boat, or rescue a sunk boat. If both keepers share the space, the first one to spend a Rescue action gets the boat.\n• PASS: Do nothing. Passing is always legal.\n\nQuiet Water, Break in the Clouds, and both Breakers allow up to 2 movement steps. Heavy Fog allows 1; Following Wind allows up to 3. Events affect both keepers equally. Only the two Breakers sink boats: Northern sinks the lowest printed boat number still on the grid; Southern sinks the highest. Point values do not determine sinking. Boats never move between sea spaces.\n\nWORKED EXAMPLE: Round 1 reveals Quiet Water. Amber moves one step from A2 to A1, where boat 1 waits; it is not rescued yet. Violet moves one step from C2 to C3, where boat 6 waits. Discard Quiet Water. Round 2 reveals Southern Breaker: boat 6, the highest-numbered boat still on the grid, sinks immediately, even though Violet stands there. Violet acts first and moves from C3 to B3. Amber then spends a Rescue action on boat 1, placing it beside the Amber lighthouse for 3 points. Amber remains on A1. Discard Southern Breaker.\n\nEDITOR AND PRINT HANDLING: Resolve every action and event manually. Keep pawns offset within their current space so the space label and any boat remain readable. Keep rescued boats separated beside the owning lighthouse and sunk boats below the grid; position records ownership and status. Fan completed events separately from the current event so round counting is visible. Do not change custom properties during play.",
-    "scoring": "Each keeper scores the sum of the printed point values on boats beside their lighthouse. Boat 1 = 3, boat 2 = 2, boat 3 = 1, boat 4 = 1, boat 5 = 2, boat 6 = 3. A boat belongs only to the keeper who used a Rescue action on it. Standing on or visiting a boat grants no ownership or points. Rescued boats are safe from all later events. Sunk boats and boats still on the grid score nothing. Keep the rescued tokens visible as the complete score record; no written score or hidden statistic is needed.",
-    "victory": "End immediately when no boats remain on the sea grid, whether the last boat was rescued or sunk. Otherwise, end after both players have taken their actions in round 6. Revealing the sixth event does not by itself end the game: both sixth-round actions still occur unless the grid empties first. At the end of round 6, boats still on the grid are lost and score nothing.\n\nThe keeper with more points wins. If points tie, the keeper who rescued more boats wins. If both points and boat counts tie, the game is a shared victory: both keepers kept the same promise to the coast. There are no additional tie breakers."
+    "setup": "Two players: Amber keeper and Violet keeper. Arrange the 3 × 3 board as shown. Place each pawn on its marked starting space. Place boats on their numbered starting spaces; boat values in order are 3, 2, 1, 1, 2, 3. Place the two lighthouse ownership markers beside the board. Shuffle the 6 weather cards face down; keep their backs indistinguishable. Leave separate areas for rescued boats, sunk boats and discarded weather. No dice or extra score counters are needed.",
+    "turns": "Each round, reveal one weather card and resolve its sinking effect before either player acts. Lowest/highest means boat number among boats still on the board. Both keepers then take one action. Amber keeper starts odd rounds and Violet keeper starts even rounds. Move 1 to the weather's step limit through edge-adjacent spaces; or rescue a boat on your current space without moving; or pass. Pawns may share spaces and do not block boats or one another. Moving never rescues automatically. Put rescued boats beside the rescuer's lighthouse; sunk boats cannot return. After both turns, discard the event. Example: a keeper moves onto a boat on one turn and must spend a later turn rescuing it, if weather or the other keeper has not removed it.",
+    "scoring": "Each rescued boat scores its printed value for its owner. Rescued boats are safe from weather. Sunk and unrescued boats score zero. Keep rescued tokens visible to record scores.",
+    "victory": "End as soon as no boats remain on the board, or after both actions in round 6. Higher points wins; tied points are broken by number of boats rescued. If both tie, share victory. The final weather does not end the game until both actions resolve, unless the board empties sooner."
+  },
+  "runtime": {
+    "kind": "rescue",
+    "rows": 3,
+    "columns": 3,
+    "spaceIds": [
+      "s-a1",
+      "s-b1",
+      "s-c1",
+      "s-a2",
+      "s-b2",
+      "s-c2",
+      "s-a3",
+      "s-b3",
+      "s-c3"
+    ],
+    "playerNames": [
+      "Amber keeper",
+      "Violet keeper"
+    ],
+    "goalIds": [
+      "light-amber",
+      "light-violet"
+    ],
+    "pawnIds": [
+      "p-amber",
+      "p-violet"
+    ],
+    "starts": [
+      3,
+      5
+    ],
+    "directions": [],
+    "boats": [
+      {
+        "id": "boat-1",
+        "cell": 0,
+        "value": 3
+      },
+      {
+        "id": "boat-2",
+        "cell": 1,
+        "value": 2
+      },
+      {
+        "id": "boat-3",
+        "cell": 2,
+        "value": 1
+      },
+      {
+        "id": "boat-4",
+        "cell": 6,
+        "value": 1
+      },
+      {
+        "id": "boat-5",
+        "cell": 7,
+        "value": 2
+      },
+      {
+        "id": "boat-6",
+        "cell": 8,
+        "value": 3
+      }
+    ],
+    "events": [
+      {
+        "id": "ev-calm1",
+        "steps": 2,
+        "sink": "none"
+      },
+      {
+        "id": "ev-calm2",
+        "steps": 2,
+        "sink": "none"
+      },
+      {
+        "id": "ev-fog",
+        "steps": 1,
+        "sink": "none"
+      },
+      {
+        "id": "ev-wind",
+        "steps": 3,
+        "sink": "none"
+      },
+      {
+        "id": "ev-low",
+        "steps": 2,
+        "sink": "low"
+      },
+      {
+        "id": "ev-high",
+        "steps": 2,
+        "sink": "high"
+      }
+    ],
+    "turnLimit": 12,
+    "waterId": null,
+    "lockId": null
   }
 }

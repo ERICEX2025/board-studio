@@ -40,6 +40,6 @@ export async function runCodexTurn(input,{model='gpt-6-astra',signal,executeImpl
   const prompt=instructions+'\nReturn only the requested structured response. Do not use tools, run commands, inspect files, or access the network. All design context is supplied below.\nCURRENT WORKSPACE DATA:\n'+JSON.stringify({game:data.game,selectedId:data.selectedId})+'\nCONVERSATION:\n'+JSON.stringify(data.messages);
   await executeImpl(args,{cwd:directory,signal,input:prompt,env:subscriptionEnvironment()});
   try{return {...validateReply(JSON.parse(await readFile(outputPath,'utf8'))),model,provider:'codex'};}
-  catch{throw Object.assign(Error('Codex returned a draft the editor could not validate. Your game is unchanged; try a smaller request.'),{status:502});}
+  catch(e){const reason=e instanceof SyntaxError?'Invalid JSON response.':e.message;throw Object.assign(Error('Codex returned a response the editor could not validate: '+reason+' Your game is unchanged.'),{status:502});}
  }finally{await rm(directory,{recursive:true,force:true});}
 }

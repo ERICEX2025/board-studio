@@ -1,3 +1,4 @@
+import {validateRuntime,rulesText} from './rules-engine.mjs';
 export const FORMAT = 'board-studio';
 export const TYPES = ['space', 'piece', 'card', 'deck'];
 export const PRIMITIVES = ['box', 'cylinder', 'cone', 'sphere', 'torus'];
@@ -73,6 +74,12 @@ export function validateGame(raw) {
     if (o.deckId !== null && (o.type !== 'card' || !game.objects.some(d => d.id === o.deckId && d.type === 'deck'))) {
       throw new Error('A card references a missing deck.');
     }
+  }
+  if(raw.runtime!=null){
+    game.runtime=validateRuntime(raw.runtime,game.objects);
+    game.rules=rulesText(game.runtime);
+    if(game.runtime.kind==='routing')game.runtime.spaceIds.forEach((id,i)=>{const tile=game.objects.find(o=>o.id===id);tile.text='↑→↓←'[game.runtime.directions[i]]+(i===game.runtime.starts[0]?'\nINLET':'');tile.rotation=0;});
+    else game.runtime.events.forEach(e=>{const card=game.objects.find(o=>o.id===e.id);card.text=`${card.name}\n${e.sink==='none'?'No boat sinks.':`Before either turn, sink the ${e.sink==='low'?'lowest':'highest'}-numbered boat still on the board.`}\nMove up to ${e.steps} orthogonal step${e.steps===1?'':'s'}, or rescue a boat on your space, or pass. One action per keeper.`;});
   }
   return game;
 }

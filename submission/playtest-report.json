@@ -1,0 +1,377 @@
+{
+  "createdAt": "2026-09-10T20:06:20.742Z",
+  "results": [
+    {
+      "supported": true,
+      "game": "Gutter Duel",
+      "matches": 12,
+      "wins": [
+        4,
+        4
+      ],
+      "ties": 4,
+      "meanTurns": 12,
+      "scorelessPercent": 18,
+      "findings": [
+        "No coarse warning triggered. Human comprehension, enjoyment and balance remain unverified."
+      ],
+      "games": [
+        {
+          "seed": 1,
+          "policies": [
+            "strategy",
+            "strategy"
+          ],
+          "winner": null,
+          "scores": [
+            4,
+            4
+          ],
+          "turns": 12,
+          "scoreless": 4
+        },
+        {
+          "seed": 2,
+          "policies": [
+            "strategy",
+            "strategy"
+          ],
+          "winner": null,
+          "scores": [
+            4,
+            4
+          ],
+          "turns": 12,
+          "scoreless": 4
+        },
+        {
+          "seed": 3,
+          "policies": [
+            "strategy",
+            "strategy"
+          ],
+          "winner": null,
+          "scores": [
+            4,
+            4
+          ],
+          "turns": 12,
+          "scoreless": 4
+        },
+        {
+          "seed": 4,
+          "policies": [
+            "strategy",
+            "strategy"
+          ],
+          "winner": null,
+          "scores": [
+            4,
+            4
+          ],
+          "turns": 12,
+          "scoreless": 4
+        },
+        {
+          "seed": 1,
+          "policies": [
+            "strategy",
+            "random"
+          ],
+          "winner": 0,
+          "scores": [
+            12,
+            0
+          ],
+          "turns": 12,
+          "scoreless": 0
+        },
+        {
+          "seed": 2,
+          "policies": [
+            "strategy",
+            "random"
+          ],
+          "winner": 0,
+          "scores": [
+            12,
+            0
+          ],
+          "turns": 12,
+          "scoreless": 0
+        },
+        {
+          "seed": 3,
+          "policies": [
+            "strategy",
+            "random"
+          ],
+          "winner": 0,
+          "scores": [
+            11,
+            0
+          ],
+          "turns": 12,
+          "scoreless": 1
+        },
+        {
+          "seed": 4,
+          "policies": [
+            "strategy",
+            "random"
+          ],
+          "winner": 0,
+          "scores": [
+            7,
+            0
+          ],
+          "turns": 12,
+          "scoreless": 5
+        },
+        {
+          "seed": 1,
+          "policies": [
+            "random",
+            "strategy"
+          ],
+          "winner": 1,
+          "scores": [
+            0,
+            12
+          ],
+          "turns": 12,
+          "scoreless": 0
+        },
+        {
+          "seed": 2,
+          "policies": [
+            "random",
+            "strategy"
+          ],
+          "winner": 1,
+          "scores": [
+            0,
+            12
+          ],
+          "turns": 12,
+          "scoreless": 0
+        },
+        {
+          "seed": 3,
+          "policies": [
+            "random",
+            "strategy"
+          ],
+          "winner": 1,
+          "scores": [
+            1,
+            8
+          ],
+          "turns": 12,
+          "scoreless": 3
+        },
+        {
+          "seed": 4,
+          "policies": [
+            "random",
+            "strategy"
+          ],
+          "winner": 1,
+          "scores": [
+            0,
+            11
+          ],
+          "turns": 12,
+          "scoreless": 1
+        }
+      ],
+      "limitations": "Small deterministic sample using a local two-ply strategy and seeded random actions. Routing has no randomness, so repeated strategy matches are identical. These results do not establish balance or fun."
+    },
+    {
+      "supported": true,
+      "game": "Last Light",
+      "matches": 12,
+      "wins": [
+        4,
+        6
+      ],
+      "ties": 2,
+      "meanTurns": 11.3,
+      "scorelessPercent": 73,
+      "findings": [
+        "No coarse warning triggered. Human comprehension, enjoyment and balance remain unverified."
+      ],
+      "games": [
+        {
+          "seed": 1,
+          "policies": [
+            "strategy",
+            "strategy"
+          ],
+          "winner": 1,
+          "scores": [
+            2,
+            6
+          ],
+          "turns": 11,
+          "scoreless": 7
+        },
+        {
+          "seed": 2,
+          "policies": [
+            "strategy",
+            "strategy"
+          ],
+          "winner": 1,
+          "scores": [
+            3,
+            4
+          ],
+          "turns": 12,
+          "scoreless": 8
+        },
+        {
+          "seed": 3,
+          "policies": [
+            "strategy",
+            "strategy"
+          ],
+          "winner": null,
+          "scores": [
+            4,
+            4
+          ],
+          "turns": 8,
+          "scoreless": 4
+        },
+        {
+          "seed": 4,
+          "policies": [
+            "strategy",
+            "strategy"
+          ],
+          "winner": null,
+          "scores": [
+            4,
+            4
+          ],
+          "turns": 8,
+          "scoreless": 4
+        },
+        {
+          "seed": 1,
+          "policies": [
+            "strategy",
+            "random"
+          ],
+          "winner": 0,
+          "scores": [
+            5,
+            0
+          ],
+          "turns": 12,
+          "scoreless": 10
+        },
+        {
+          "seed": 2,
+          "policies": [
+            "strategy",
+            "random"
+          ],
+          "winner": 0,
+          "scores": [
+            5,
+            0
+          ],
+          "turns": 12,
+          "scoreless": 10
+        },
+        {
+          "seed": 3,
+          "policies": [
+            "strategy",
+            "random"
+          ],
+          "winner": 0,
+          "scores": [
+            5,
+            0
+          ],
+          "turns": 12,
+          "scoreless": 10
+        },
+        {
+          "seed": 4,
+          "policies": [
+            "strategy",
+            "random"
+          ],
+          "winner": 0,
+          "scores": [
+            5,
+            1
+          ],
+          "turns": 12,
+          "scoreless": 9
+        },
+        {
+          "seed": 1,
+          "policies": [
+            "random",
+            "strategy"
+          ],
+          "winner": 1,
+          "scores": [
+            0,
+            6
+          ],
+          "turns": 12,
+          "scoreless": 9
+        },
+        {
+          "seed": 2,
+          "policies": [
+            "random",
+            "strategy"
+          ],
+          "winner": 1,
+          "scores": [
+            0,
+            6
+          ],
+          "turns": 12,
+          "scoreless": 9
+        },
+        {
+          "seed": 3,
+          "policies": [
+            "random",
+            "strategy"
+          ],
+          "winner": 1,
+          "scores": [
+            0,
+            5
+          ],
+          "turns": 12,
+          "scoreless": 9
+        },
+        {
+          "seed": 4,
+          "policies": [
+            "random",
+            "strategy"
+          ],
+          "winner": 1,
+          "scores": [
+            0,
+            5
+          ],
+          "turns": 12,
+          "scoreless": 9
+        }
+      ],
+      "limitations": "Small deterministic sample using a local two-ply strategy and seeded random actions. Routing has no randomness, so repeated strategy matches are identical. These results do not establish balance or fun."
+    }
+  ]
+}

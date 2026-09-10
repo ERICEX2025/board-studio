@@ -5,5 +5,5 @@ export function compareGames(before,after){
  for(const o of after.objects){const old=previous.get(o.id);if(!old)added.push(o.name);else if(JSON.stringify(old)!==JSON.stringify(o))changed.push(o.name);}
  for(const o of before.objects)if(!next.has(o.id))removed.push(o.name);
  const rules=Object.keys(after.rules).filter(key=>before.rules[key]!==after.rules[key]);
- return {added,removed,changed,rules,renamed:before.name!==after.name};
+ return {added,removed,changed,rules,runtime:JSON.stringify(before.runtime??null)!==JSON.stringify(after.runtime??null),renamed:before.name!==after.name};
 }
