@@ -8,7 +8,7 @@ Open `http://127.0.0.1:4173/board.html?example=lantern-cove` after starting the 
 
 The main demo follows **prompt → visual directions → generate → revise → play**, with printing and STL export at the end. **Last Light** (`?example=last-light`), **Gutter Duel** (`?example=gutter-duel`), and the observatory geometry study are also available. These are saved Astra-generated examples, not canned responses to new prompts.
 
-Watch the [narrated one-minute demo](https://board-studio-demo-eko.eric-ex.chatgpt.site) or [open the video directly](https://board-studio-demo-eko.eric-ex.chatgpt.site/island-demo-v2.mp4). This public page presents the recorded demo; live AI generation runs locally. See [submission materials](submission/SUBMISSION.md) and the [demo outline](submission/DEMO-SCRIPT.md).
+Watch the [narrated one-minute demo](https://board-studio-demo-eko.eric-ex.chatgpt.site) or [open the video directly](https://board-studio-demo-eko.eric-ex.chatgpt.site/island-demo-beauty.mp4). This public page presents the recorded demo; live AI generation runs locally. See [submission materials](submission/SUBMISSION.md) and the [demo outline](submission/DEMO-SCRIPT.md).
 
 ## Run
 

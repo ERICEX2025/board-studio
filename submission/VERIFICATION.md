@@ -2,7 +2,7 @@
 
 ## Current end-to-end demo
 
-Catan-like is the primary demo: an original island-settlement game created through a real Astra conversation, visual direction selection, generation, a requested visual edit, and guided browser gameplay. The final narrated one-minute recording is included as `board-studio-demo.mp4`. Version 2 adds a spoken explanation, large readable chapter captions, focused interface crops, and labeled before/after views to clarify the product journey. Generation waits and iteration are shortened and accelerated portions are labeled; this is not a claim of one-minute generation latency. The first large draft timed out before a compact retry succeeded.
+Catan-like is the primary demo: an original island-settlement game created through a real Astra conversation, visual direction selection, generation, a requested visual edit, and guided browser gameplay. The final narrated one-minute recording is included as `board-studio-demo.mp4`. The final cut adds a spoken explanation, large readable chapter captions, focused interface crops, and labeled before/after views to clarify the product journey. Its final board and gameplay shots show the polished Catan-like geometry. Generation waits and iteration are shortened and accelerated portions are labeled; this is not a claim of one-minute generation latency. The first large draft timed out before a compact retry succeeded.
 
 - Computer use completed a real Catan-like match through the browser: 13 turns, final score 6–5. The downloaded action record replayed to exactly the same complete state.
 - The live AI edit preserved the game runtime; the downloaded game JSON was compared before and after the revision.

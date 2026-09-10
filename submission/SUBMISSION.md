@@ -32,7 +32,7 @@ The narrated one-minute demo uses large chapter captions and real interaction wi
 
 - Repository: https://github.com/ERICEX2025/board-studio
 - Public demo page: https://board-studio-demo-eko.eric-ex.chatgpt.site
-- One-minute video: https://board-studio-demo-eko.eric-ex.chatgpt.site/island-demo-v2.mp4
+- One-minute video: https://board-studio-demo-eko.eric-ex.chatgpt.site/island-demo-beauty.mp4
 - Hosted AI app: none. Live generation runs locally with the builder's Codex sign-in. Do not submit the earlier static prototype as the live AI app.
 
 ## What works / limits
