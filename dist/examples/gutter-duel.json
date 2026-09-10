@@ -867,7 +867,7 @@
       "properties": [
         {
           "key": "use",
-          "value": "Trace one drop each turn; return beside the board afterward. Never stored or spent."
+          "value": "Trace one drop each turn; return to the inlet afterward. Never stored or spent."
         }
       ]
     },

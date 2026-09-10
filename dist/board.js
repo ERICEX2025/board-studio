@@ -1,3 +1,4 @@
+import {exportComponentSTL} from './stl-export.mjs';
 import {guidedPrintKit} from './print-kit.js';
 import {evaluateGame} from './playtest.mjs';
 import {installMatch} from './match-ui.js';
@@ -10,7 +11,7 @@ import { blankGame, createObject, layoutObjects, validateGame, serializeGame, re
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let game = blankGame(), selected = null, mode = 'build', history = [], dirty = false, timer;
-let scene, renderer, camera, controls, world, observer;
+let scene, renderer, camera, controls, world, observer, workGrid;
 let chat=null,previewGame=null,match=null,waterMotion=null,lastAnimatedTurn=-1;
 const targets = [], ray = new THREE.Raycaster(), mouse = new THREE.Vector2(), floorPlane = new THREE.Plane(new THREE.Vector3(0,1,0),0);
 const ruleLabels = { setup: 'Setup', turns: 'Turn sequence & actions', scoring: 'Scoring & resources', victory: 'Victory / end of game' };
@@ -45,13 +46,16 @@ function faceText(o){
  const lines=o.text.split('\n');
  if(!o.text||o.text.length>40||lines.length>3)return null;
  const c=document.createElement('canvas');c.width=c.height=512;const ctx=c.getContext('2d');
+ if(o.numberChit){ctx.beginPath();ctx.arc(256,256,238,0,Math.PI*2);ctx.fillStyle='#f2e7ce';ctx.fill();ctx.strokeStyle='#796c51';ctx.lineWidth=10;ctx.stroke();}
  const rgb=[1,3,5].map(i=>parseInt(o.color.slice(i,i+2),16));ctx.fillStyle=(rgb[0]*.299+rgb[1]*.587+rgb[2]*.114)>145?'#18212b':'#ffffff';
+ if(o.numberChit)ctx.fillStyle='#242723';
  ctx.textAlign='center';ctx.textBaseline='middle';
  lines.forEach((line,i)=>{ctx.font=`600 ${line.length<=3?220:78}px sans-serif`;ctx.fillText(line,256,lines.length===1?256:(i===0?205:405),450);});
  const face=new THREE.Mesh(new THREE.PlaneGeometry(o.width*.85,o.depth*.85),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(c),transparent:true,depthWrite:false,side:THREE.DoubleSide}));
  face.rotation.x=-Math.PI/2;face.position.y=o.height+.015;return face;
 }
-function baseY(o,doc=game) { if(o.type !== 'piece') return 0; return Math.max(0,...doc.objects.filter(s => s.type === 'space' && Math.abs(s.x-o.x)<s.width/2 && Math.abs(s.z-o.z)<s.depth/2).map(s=>s.height))+.02; }
+function surfaceY(o,doc){if(doc.runtime?.kind!=='settlement'||!doc.runtime.tiles.some(t=>t.id===o.id)||!o.parts.length)return o.height;const bases=o.parts.filter(p=>p.width>=o.width*.7&&p.depth>=o.depth*.7);return bases.length?Math.min(...bases.map(p=>p.y+p.height/2)):.25;}
+function baseY(o,doc=game) { if(o.type !== 'piece') return 0; return Math.max(0,...doc.objects.filter(s => s.type === 'space' && Math.abs(s.x-o.x)<s.width/2 && Math.abs(s.z-o.z)<s.depth/2).map(s=>surfaceY(s,doc)))+.02; }
 function rebuild() {
   if(!world) return;
   while(world.children.length) { const o = world.children[0]; o.traverse(c=>{c.geometry?.dispose(); if(c.material){c.material.map?.dispose(); c.material.dispose();}}); world.remove(o); }
@@ -73,10 +77,10 @@ function rebuild() {
       if(o.type==='piece'&&o.shape==='circle'){const cap=new THREE.Mesh(new THREE.SphereGeometry(o.width*.36,16,12),material.clone());cap.position.y=o.height+.05;cap.userData.id=o.id;g.add(cap);targets.push(cap);}
       if(o.id===(match?.active?match.selectedId:selected)){const edges=new THREE.LineSegments(new THREE.EdgesGeometry(geometry(o)),new THREE.LineBasicMaterial({color:'#e99a46'}));edges.position.y=o.height/2+.01;g.add(edges);}
     }
-    const face=o.type==='space'&&!parts.length?faceText(o):null;if(face)g.add(face);
-    if(match?.active&&match.legalIds.includes(o.id)){const ring=new THREE.Mesh(new THREE.RingGeometry(.44,.49,48),new THREE.MeshBasicMaterial({color:'#81d4bc',transparent:true,opacity:.65,side:THREE.DoubleSide,depthWrite:false}));ring.rotation.x=-Math.PI/2;ring.scale.set(o.width,o.depth,1);ring.position.y=o.height+.025;g.add(ring);}
+    const islandTile=doc.runtime?.kind==='settlement'?doc.runtime.tiles.find(t=>t.id===o.id):null;const face=islandTile?faceText({...o,text:String(islandTile.number),numberChit:true,height:surfaceY(o,doc),width:1.15,depth:1.15}):o.type==='space'&&!parts.length?faceText(o):null;if(face){if(islandTile){face.position.x=-.65;face.position.z=.55;}g.add(face);}
+    if(match?.active&&match.legalIds.includes(o.id)){const ring=new THREE.Mesh(new THREE.RingGeometry(.44,.49,48),new THREE.MeshBasicMaterial({color:'#81d4bc',transparent:true,opacity:.65,side:THREE.DoubleSide,depthWrite:false}));ring.rotation.x=-Math.PI/2;ring.scale.set(o.width,o.depth,1);ring.position.y=surfaceY(o,doc)+.025;g.add(ring);}
     const text = o.type === 'deck'&&!match?.active ? o.name+' · '+deckCards(doc,o.id).filter(c=>!c.drawn).length : o.name;
-    if(!face||o.id===(match?.active?match.selectedId:selected)){const label=createLabel(text);label.position.y=o.height+.55;g.add(label);}
+    if((doc.runtime?.kind!=='settlement'&&!face&&o.name!=='Road')||o.id===(match?.active?match.selectedId:selected)){const label=createLabel(text);label.position.y=o.height+.55;g.add(label);}
   }
   if(match?.active&&match.pathIds.length){
     const points=match.pathIds.map(id=>doc.objects.find(o=>o.id===id)).map(o=>new THREE.Vector3(o.x,o.height+.12,o.z));
@@ -89,11 +93,11 @@ function init3D() {
   try {
     scene = new THREE.Scene(); scene.fog = new THREE.Fog('#303030',80,180);
     camera = new THREE.PerspectiveCamera(38,1,.1,200); camera.position.set(12,15,17);
-    renderer = new THREE.WebGLRenderer({antialias:true,alpha:true}); renderer.setPixelRatio(Math.min(devicePixelRatio,2)); renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap; $('scene').append(renderer.domElement);
+    renderer = new THREE.WebGLRenderer({antialias:true,alpha:true}); renderer.setPixelRatio(Math.min(devicePixelRatio,2)); renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=.95;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap; $('scene').append(renderer.domElement);
     controls = new OrbitControls(camera,renderer.domElement); controls.enableDamping=true; controls.maxPolarAngle=Math.PI/2.1; controls.minDistance=3;controls.maxDistance=120;
-    scene.add(new THREE.HemisphereLight('#ffffff','#555555',2.7)); const light=new THREE.DirectionalLight('#ffffff',3);light.position.set(5,14,8);light.castShadow=true;light.shadow.mapSize.set(2048,2048);Object.assign(light.shadow.camera,{left:-25,right:25,top:25,bottom:-25});light.shadow.bias=-.001;scene.add(light);
+    scene.add(new THREE.HemisphereLight('#ffffff','#555555',1.6)); const light=new THREE.DirectionalLight('#ffffff',2.5);light.position.set(5,14,8);light.castShadow=true;light.shadow.mapSize.set(2048,2048);Object.assign(light.shadow.camera,{left:-25,right:25,top:25,bottom:-25});light.shadow.bias=-.001;scene.add(light);
     const ground=new THREE.Mesh(new THREE.PlaneGeometry(100,100),new THREE.ShadowMaterial({opacity:.22}));ground.rotation.x=-Math.PI/2;ground.position.y=-.05;ground.receiveShadow=true;scene.add(ground);
-    const grid = new THREE.GridHelper(60,60,'#555555','#3d3d3d'); grid.position.y=-.04;scene.add(grid);world=new THREE.Group();scene.add(world);
+    const grid = workGrid = new THREE.GridHelper(60,60,'#555555','#3d3d3d'); grid.position.y=-.04;scene.add(grid);world=new THREE.Group();scene.add(world);
     observer=new ResizeObserver(()=>{const r=$('scene').getBoundingClientRect();if(r.width&&r.height){renderer.setSize(r.width,r.height);camera.aspect=r.width/r.height;camera.updateProjectionMatrix();}});observer.observe($('scene'));
     let down;
     renderer.domElement.addEventListener('pointerdown',e=>down=[e.clientX,e.clientY]);
@@ -133,7 +137,7 @@ function field(key,label,value,type='text',attrs='') { return `<div><label for="
 function inspector() {
   const o=current(), el=$('inspector');
   const openParts=new Set([...el.querySelectorAll('.part-editor[open]')].map(d=>d.dataset.partId));
-  if(!o){el.innerHTML='<div class="inspector-placeholder"><div class="eyebrow">PROPERTIES</div><h2>No selection</h2><p class="muted">Select an object in the viewport or Components panel to inspect its properties.</p><div class="guidance">Transform<br>Appearance<br>Component data<br>Custom properties</div></div>';return;}
+  if(!o){el.dataset.hasGame=String(game.objects.length>0||Boolean(previewGame));el.innerHTML='<div class="inspector-placeholder"><div class="eyebrow">PROPERTIES</div><h2>No selection</h2><p class="muted">Select an object in the viewport or Components panel to inspect its properties.</p><div class="guidance">Transform<br>Appearance<br>Component data<br>Custom properties</div></div>';return;}
   const cards=o.type==='deck'?deckCards(game,o.id):[];
   el.innerHTML=`<div class="eyebrow">${o.type} / SELECTED</div><h2>${esc(o.name)}</h2>${mode==='play'&&o.type==='piece'?'<p class="play-move-note">Click a space or the tabletop to move this piece. You can also change its position below.</p>':''}
     ${field('name','Name',o.name,'text','maxlength="80"')}
@@ -182,7 +186,7 @@ function applyLayout(layout) {
   checkpoint();game.objects=game.objects.filter(o=>o.type!=='space').concat(spaces);selected=spaces[0]?.id??null;refresh();fit();
 }
 function refresh() { $('game-name').value=game.name;$('empty-canvas').hidden=(previewGame||game).objects.length>0;$('undo').disabled=!history.length||Boolean(match?.active);objectList();inspector();rebuild();chat?.selectionChanged();if(mode==='print')printView(); }
-function setMode(next) { mode=next;match?.leave();if(mode==='play'&&!previewGame)match?.enter();document.body.classList.toggle('mode-print',mode==='print');$('print-kit').hidden=mode!=='print';$('play-bar').hidden=mode!=='play'||Boolean(match?.active);$('mode-label').textContent=mode.toUpperCase()+' / 3D CANVAS';document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));document.querySelectorAll('[data-add],[data-layout]').forEach(b=>b.disabled=mode!=='build');$('game-name').disabled=mode!=='build';refresh();if(mode!=='print')requestAnimationFrame(()=>fit($('top-down').classList.contains('active'))); }
+function setMode(next) { mode=next;if(workGrid)workGrid.visible=next==='build';match?.leave();if(mode==='play'&&!previewGame)match?.enter();document.body.classList.toggle('mode-print',mode==='print');$('print-kit').hidden=mode!=='print';$('play-bar').hidden=mode!=='play'||Boolean(match?.active);$('mode-label').textContent=mode.toUpperCase()+' / 3D CANVAS';document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));document.querySelectorAll('[data-add],[data-layout]').forEach(b=>b.disabled=mode!=='build');$('game-name').disabled=mode!=='build';refresh();if(mode!=='print')requestAnimationFrame(()=>fit($('top-down').classList.contains('active'))); }
 function boardSvg() {
   const spaces=game.objects.filter(o=>o.type==='space');if(!spaces.length)return '<p>No board spaces yet. Add a layout or place spaces in Build.</p>';
   const minX=Math.min(...spaces.map(o=>o.x-Math.max(o.width,o.depth))),maxX=Math.max(...spaces.map(o=>o.x+Math.max(o.width,o.depth))),minZ=Math.min(...spaces.map(o=>o.z-Math.max(o.width,o.depth))),maxZ=Math.max(...spaces.map(o=>o.z+Math.max(o.width,o.depth)));
@@ -226,6 +230,9 @@ $('save-rules').onclick=()=>{checkpoint();for(const key of Object.keys(ruleLabel
 window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
 window.addEventListener('beforeprint',printView);
 window.addEventListener('pagehide',()=>{renderer?.setAnimationLoop(null);observer?.disconnect();controls?.dispose();renderer?.dispose();});
+const export3d=document.createElement('button');export3d.id='export-3d';export3d.textContent='Export 3D';$('save-game').before(export3d);
+const stlDialog=document.createElement('dialog');stlDialog.id='stl-dialog';document.body.append(stlDialog);
+export3d.onclick=()=>{const pieces=game.objects.filter(o=>o.type==='piece');stlDialog.innerHTML=`<form method="dialog"><button aria-label="Close 3D export">Close</button></form><h2>Export a 3D component</h2><p>Download a selected piece as an STL for your slicer. Paper printing remains available in Print.</p>${pieces.length?`<label for="stl-piece">Component</label><select id="stl-piece">${pieces.map(o=>`<option value="${esc(o.id)}">${esc(o.name)}</option>`).join('')}</select><label for="stl-width">Width in millimetres</label><input id="stl-width" type="number" min="10" max="150" value="25"><button id="stl-check" class="primary">Check & export STL</button><p id="stl-result" role="status"></p>`:'<p>Add or generate a piece first.</p>'}`;stlDialog.showModal();stlDialog.querySelector('#stl-check')?.addEventListener('click',()=>{try{const o=game.objects.find(o=>o.id===stlDialog.querySelector('#stl-piece').value),result=exportComponentSTL(o,Number(stlDialog.querySelector('#stl-width').value));const url=URL.createObjectURL(new Blob([result.buffer],{type:'model/stl'}));const a=document.createElement('a');a.href=url;a.download=(o.name.toLowerCase().replace(/[^a-z0-9]+/g,'-')||'piece')+'.stl';a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);stlDialog.querySelector('#stl-result').textContent=`${result.report.widthMM} × ${result.report.depthMM} × ${result.report.heightMM} mm. ${result.report.triangles} triangles; ${result.report.closedShells} closed mesh shells, zero open edges. ${result.report.notes}`;}catch(e){stlDialog.querySelector('#stl-result').textContent=e.message;}});};
 const assess=document.createElement('button');assess.id='assess-game';assess.textContent='Test game';$('component-toggle').after(assess);
 const review=document.createElement('dialog');review.id='playtest-dialog';document.body.append(review);
 assess.onclick=()=>{

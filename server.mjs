@@ -21,7 +21,7 @@ export function createApp({config=configuration,runTurn=runCodexTurn}={}){
     if(!req.headers['content-type']?.startsWith('application/json'))return json(415,{error:'Expected JSON.'});
     if(active>=2)return json(429,{error:'Another design request is running. Please wait.'});
     let data;try{let text='',bytes=0;for await(const chunk of req){bytes+=chunk.length;if(bytes>4000000)throw Error('Request too large.');text+=chunk;}data=JSON.parse(text);}catch{return json(400,{error:'Invalid or oversized request.'});}
-    const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),300000);res.on('close',()=>{if(!res.writableEnded)controller.abort();});active++;
+    const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),600000);res.on('close',()=>{if(!res.writableEnded)controller.abort();});active++;
     try{const c=await config();const reply=await runTurn(data,{...c,signal:controller.signal});if(!res.destroyed)json(200,reply);}catch(e){if(!res.destroyed)json(e.name==='AbortError'?504:e.status||400,{error:e.name==='AbortError'?'Request timed out. Try a smaller change.':e.message||'Request failed.'});}finally{clearTimeout(timeout);active--;}
     return;
   }

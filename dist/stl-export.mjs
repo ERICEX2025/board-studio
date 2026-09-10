@@ -1,0 +1,14 @@
+import * as THREE from './vendor/three.module.js';
+import {partGeometry} from './part-geometry.js';
+export function exportComponentSTL(o,widthMM=25){
+ if(!Number.isFinite(widthMM)||widthMM<10||widthMM>150)throw Error('Choose a width from 10 to 150 mm.');
+ const items=[];
+ if(o.parts.length)for(const p of o.parts){const g=partGeometry(p);g.applyMatrix4(new THREE.Matrix4().compose(new THREE.Vector3(p.x,p.y,p.z),new THREE.Quaternion().setFromEuler(new THREE.Euler(...[p.rx,p.ry,p.rz].map(THREE.MathUtils.degToRad))),new THREE.Vector3(1,1,1)));items.push(g);}
+ else{let g;if(o.shape==='square')g=new THREE.BoxGeometry(o.width,o.height,o.depth);else{g=new THREE.CylinderGeometry(.5,.5,o.height,o.shape==='hex'?6:32);g.scale(o.width,1,o.depth);}g.translate(0,o.height/2,0);items.push(g);if(o.type==='piece'&&o.shape==='circle'){g=new THREE.SphereGeometry(o.width*.36,16,12);g.translate(0,o.height+.05,0);items.push(g);}}
+ const bounds=new THREE.Box3();for(const g of items){g.computeBoundingBox();bounds.union(g.boundingBox);}const size=bounds.getSize(new THREE.Vector3()),scale=widthMM/size.x,center=bounds.getCenter(new THREE.Vector3());const triangles=[];let badEdges=0;
+ for(const indexed of items){const g=indexed.index?indexed.toNonIndexed():indexed;const a=g.getAttribute('position'),edges=new Map();for(let i=0;i<a.count;i+=3){const points=[0,1,2].map(j=>{const p=new THREE.Vector3().fromBufferAttribute(a,i+j);return new THREE.Vector3((p.x-center.x)*scale,-(p.z-center.z)*scale,(p.y-bounds.min.y)*scale);});const normal=points[1].clone().sub(points[0]).cross(points[2].clone().sub(points[0]));if(normal.length()<1e-8)continue;normal.normalize();triangles.push({points,normal});const keys=points.map(p=>p.toArray().map(n=>Math.round(n*1e5)).join(','));for(let j=0;j<3;j++){const key=[keys[j],keys[(j+1)%3]].sort().join('|');edges.set(key,(edges.get(key)||0)+1);}}
+ badEdges+=[...edges.values()].filter(n=>n!==2).length;g.dispose();if(g!==indexed)indexed.dispose();}
+ if(badEdges)throw Error('This component contains open or non-manifold mesh edges. Choose another piece or revise its geometry.');
+ const buffer=new ArrayBuffer(84+triangles.length*50),view=new DataView(buffer);new Uint8Array(buffer,0,80).set(new TextEncoder().encode('Board Studio | millimetres | inspect overlaps and supports in slicer'));view.setUint32(80,triangles.length,true);let offset=84;for(const t of triangles){for(const p of [t.normal,...t.points])for(const n of p.toArray()){view.setFloat32(offset,n,true);offset+=4;}view.setUint16(offset,0,true);offset+=2;}
+ return {buffer,report:{widthMM,heightMM:Number((size.y*scale).toFixed(2)),depthMM:Number((size.z*scale).toFixed(2)),triangles:triangles.length,closedShells:items.length,openEdges:badEdges,notes:'STL has no colors. Primitive shells are closed but overlaps are not boolean-unioned. Check supports, wall thickness and connected parts in your slicer before printing.'}};
+}

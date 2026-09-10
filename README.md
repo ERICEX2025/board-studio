@@ -1,10 +1,12 @@
 # Board Studio
 
-A local 3D board-game editor with a live Astra design conversation, visual concept sketches, design critiques, and staged game revisions.
+A local board-game studio that turns a conversation with Astra into an editable 3D game you can play in the browser. Printable kits and component STL exports are optional.
 
 ## Try it
 
-Open `http://127.0.0.1:4173/board.html?example=last-light` after starting the server to preview **Last Light**, an original two-player lighthouse rescue prototype. Apply it to inspect the editable geometry, play a guided match, or print the kit. The observatory geometry study is available from the conversation welcome panel. These are saved Astra-generated examples, not canned responses to new prompts.
+Open `http://127.0.0.1:4173/board.html?example=lantern-cove` after starting the server to preview **Lantern Cove**, an original island settlement game inspired by familiar resource-building games. Apply the draft, inspect its editable geometry, and enter Play to gather resources, trade, build settlements, and upgrade cities. Play locally against a heuristic computer opponent or share the browser for two-person play; there is no networked multiplayer.
+
+The main demo follows **prompt → visual directions → generate → revise → play**, with printing and STL export at the end. **Last Light** (`?example=last-light`), **Gutter Duel** (`?example=gutter-duel`), and the observatory geometry study are also available. These are saved Astra-generated examples, not canned responses to new prompts.
 
 See [submission materials](submission/SUBMISSION.md) and the [one-minute demo script](submission/DEMO-SCRIPT.md).
 
@@ -27,13 +29,15 @@ The server uses the signed-in Codex CLI with ChatGPT subscription usage limits. 
 - Select a component and ask for a focused revision. The request includes the current game and selection.
 - The assistant maintains a compact design brief. While generating, the composer shows elapsed time and whether a viewport is included. You can revise an unapplied proposal without losing it; failures and cancellation preserve it. The proposal review lists actual additions, removals, component edits and rule changes. Changes are staged and validated; applying them creates an undo snapshot. If manual edits occurred since the request began, the stale proposal is rejected.
 - Short tile text is drawn on the component face and rotates with it. Guided Play enforces quarter-turns, locks and water scoring for routing games.
-- Use Components for manual editing. Play enforces routing and rescue rules when a game supplies a supported runtime. Other mechanics use free movement, dice, and deck actions. Print produces assembly instructions, board layouts, cutouts, cards and rules.
+- Use Components for manual editing. Play enforces routing, rescue and island-settlement rules when a game supplies a supported runtime. Other mechanics use free movement, dice, and deck actions. Print produces assembly instructions, board layouts, cutouts, cards and rules.
 
-Conversation history is retained for the browser session only. Save game downloads the game document, not the chat. There is no account, cloud persistence, arbitrary generated rules enforcement, image generation, or unbounded autonomous playtesting. Components can contain up to 32 editable primitive parts (box, cylinder, cone, sphere, torus), with 1200 total parts per scene. Parts replace the component’s base shape. Older v1 game files load with empty part lists. Print output remains a symbolic footprint/token, not a 3D fabrication file. Visual options are generated geometry sketches, not image assets. With Include viewport enabled, each sent message includes a JPEG of the current 3D canvas; it does not capture other pages, UI panels, or the desktop. Review view asks for visual critique. Disable the checkbox for data-only conversations.
+Conversation history is retained for the browser session only. Save game downloads the game document, not the chat. There is no account, cloud persistence, arbitrary generated rules enforcement, image generation, or unbounded autonomous playtesting. Components can contain up to 32 editable primitive parts (box, cylinder, cone, sphere, torus), with 1200 total parts per scene. Parts replace the component’s base shape. Older v1 game files load with empty part lists. Paper output uses symbolic footprints and tokens. Export 3D produces a dimensioned binary STL for one component, checks each primitive shell for closed edges, and places the result on the build plate. It does not boolean-union intersecting shells or verify supports, minimum wall thickness, connectivity, or physical manufacturability; inspect the mesh in a slicer before printing. Visual options are generated geometry sketches, not image assets. With Include viewport enabled, each sent message includes a JPEG of the current 3D canvas; it does not capture other pages, UI panels, or the desktop. Review view asks for visual critique. Disable the checkbox for data-only conversations.
 
 ## Verification
 
-Run `npm test` for game validation, deck behavior, provider response validation, and local-server access checks. Tests mock the legacy API transport; live studio requests use the ChatGPT-authenticated Codex CLI.
+Run `npm test`: 38 tests cover game validation, guided rules and deterministic replay, deck behavior, provider response validation, local-server access checks, and STL geometry checks. Tests mock the legacy API transport; live studio requests use the ChatGPT-authenticated Codex CLI. Independent Astra agents also played a recorded Gutter Duel match through the UI. That is separate from the local heuristic opponent in the game.
+
+Software checks and agent playtests do not establish human enjoyment or long-term balance. Paper and STL exports have not been physically printed or validated in a slicer.
 
 ## Architecture
 
@@ -52,7 +56,7 @@ The generated **Gutter Duel** example (`?example=gutter-duel`) records a complet
 
 Gutter Duel now has 34 editable rooftop parts generated in a live Astra visual revision. The editor validated that all 14 IDs, rules and runtime fields were preserved. Open `?example=gutter-duel`, apply, then Play.
 
-Two declarative families run locally: **routing** (quarter-turns, locks, traced water, scoring, 12-turn ending in the example) and **rescue** (seeded weather, alternating initiative, movement limits, separate rescues and terminal scoring). The computer opponent uses a local two-ply heuristic; it is not an Astra call. Manual tabletop remains available for other mechanics. A common runtime generates both enforced behavior and rules prose. Save stores the design; completed matches have a separate downloadable record with the seed and action history.
+Three declarative families run locally: **routing** (quarter-turns, locks, traced water, scoring, and a turn-limit ending), **rescue** (seeded weather, alternating initiative, movement limits, separate rescues and terminal scoring), and **settlement** (seeded resource production, a free resource choice when production misses, adjacent construction, city upgrades, 3-for-1 bank trade, and point/turn-limit endings). Lantern Cove uses the settlement family, with buildings on hex centers. The computer opponent uses local heuristics (two-ply for grid games); it is not an Astra call. Manual tabletop remains available for other mechanics. A common runtime generates both enforced behavior and rules prose. Save stores the design; completed matches have a separate downloadable record with the seed and action history.
 
 **Test game** runs a bounded 12-match diagnostic with deterministic strategy and random policies, reports coarse warnings, and can send the evidence to Astra for a targeted proposal. Complete a match to review its actual log with Astra. Inspect/apply changes, then test again. No background model calls or automatic application. These small samples do not establish balance, enjoyment or human comprehension.
 

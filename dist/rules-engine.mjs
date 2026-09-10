@@ -1,7 +1,8 @@
+import {validateSettlement,newSettlement,settlementActions,applySettlement,settlementChoice,settlementRules} from './settlement-engine.mjs';
 // Declarative, deterministic tabletop runtime. No generated code is executed.
 const fail=message=>{throw Error(message);};
 export function validateRuntime(raw,objects){
- if(raw==null)return null;
+ if(raw==null)return null;if(raw.kind==='settlement')return validateSettlement(raw,objects);
  const c=structuredClone(raw),ids=new Map(objects.map(o=>[o.id,o]));
  if(!['routing','rescue'].includes(c.kind))fail('Unsupported rules family. Choose routing or rescue, or use a manual tabletop.');
  for(const key of ['rows','columns'])if(!Number.isInteger(c[key])||c[key]<2||c[key]>8)fail('Rules grid must have 2–8 rows and columns.');
@@ -33,11 +34,12 @@ export function validateRuntime(raw,objects){
 }
 export function seededRandom(seed=1){let n=seed>>>0;return()=>{n=(Math.imul(n,1664525)+1013904223)>>>0;return n/4294967296;};}
 export function newMatch(config,seed=1){
+ if(config.kind==='settlement')return newSettlement(config,seed);
  const order=config.events.map((_,i)=>i),random=seededRandom(seed);for(let i=order.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[order[i],order[j]]=[order[j],order[i]];}
  const s={turn:0,scores:[0,0],directions:[...config.directions],locked:null,pawns:[...config.starts],boatOwners:config.boats.map(()=>null),eventOrder:order,finished:false,winner:null,lastPath:[],log:[],actions:[],seed};
  if(config.kind==='rescue')beginRound(config,s);return s;
 }
-export function activePlayer(c,s){return c.kind==='routing'?s.turn%2:(Math.floor(s.turn/2)%2+s.turn%2)%2;}
+export function activePlayer(c,s){return c.kind!=='rescue'?s.turn%2:(Math.floor(s.turn/2)%2+s.turn%2)%2;}
 export function eventFor(c,s){return c.events[s.eventOrder[Math.min(Math.floor(s.turn/2),c.events.length-1)]];}
 function finish(c,s){
  if(s.turn<c.turnLimit&&!(c.kind==='rescue'&&s.boatOwners.every(x=>x!==null)))return;
@@ -62,6 +64,7 @@ export function traceWater(c,directions){
  return {path,owner:null,reason:'loop: water revisited a gutter'};
 }
 export function legalActions(c,s){
+ if(c.kind==='settlement')return settlementActions(c,s);
  if(s.finished)return [];
  if(c.kind==='routing')return c.spaceIds.flatMap((_,cell)=>cell===s.locked?[]:[{type:'rotate',cell,delta:-1},{type:'rotate',cell,delta:1}]);
  const p=activePlayer(c,s),from=s.pawns[p],steps=eventFor(c,s).steps;
@@ -70,6 +73,7 @@ export function legalActions(c,s){
  return [...moves,...rescues,{type:'pass'}];
 }
 export function applyAction(c,state,action){
+ if(c.kind==='settlement')return applySettlement(c,state,action);
  if(!legalActions(c,state).some(a=>action&&Object.keys(a).length===Object.keys(action).length&&Object.keys(a).every(k=>a[k]===action[k])))fail('That action is not legal on this turn.');
  const s=structuredClone(state),p=activePlayer(c,s),name=c.playerNames[p];
  if(c.kind==='routing'){
@@ -88,6 +92,7 @@ function value(c,s,p){
  return n;
 }
 export function chooseAction(c,s){
+ if(c.kind==='settlement')return settlementChoice(c,s);
  const p=activePlayer(c,s);let best=null,bestValue=-Infinity;
  for(const a of legalActions(c,s)){
   const next=applyAction(c,s,a);let score=value(c,next,p);
@@ -97,6 +102,7 @@ export function chooseAction(c,s){
  return best;
 }
 export function rulesText(c){
+ if(c.kind==='settlement')return settlementRules(c);
  const names=c.playerNames.join(' and '),grid=`${c.rows} × ${c.columns}`;
  if(c.kind==='routing')return {
   setup:`Two players: ${names}. Arrange the ${c.spaceIds.length} separately cut gutter tiles in the ${grid} grid shown on the board. The first garden is north; the second is south. Directions stay fixed regardless of seating. Initial arrows, row by row: ${Array.from({length:c.rows},(_,r)=>c.directions.slice(r*c.columns,(r+1)*c.columns).map(d=>'↑→↓←'[d]).join(' ')).join(' / ')}. The inlet is gutter ${c.starts[0]+1}. Set the water and lock markers beside the board. On paper, use a pencil and paper for scores and turn tallies. Start both scores at zero; ${c.playerNames[0]} goes first.`,

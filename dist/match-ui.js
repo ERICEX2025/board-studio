@@ -1,6 +1,7 @@
+import {installIslandMatch} from './island-match.js';
 import {newMatch,activePlayer,legalActions,applyAction,chooseAction,eventFor} from './rules-engine.mjs';
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-export function installMatch({getGame,onChange,onReview}){
+function installClassicMatch({getGame,onChange,onReview}){
  const panel=document.createElement('aside');panel.id='match-panel';panel.hidden=true;document.querySelector('.workspace').append(panel);
  let state=null,config=null,selected=null,active=false,opponent=true,seed=1,history=[],source=null;
  const api={get active(){return active;},get state(){return state;},get selectedId(){return config?.spaceIds[selected]??null;},get legalIds(){return state&&!state.finished?legalActions(config,state).map(a=>config.spaceIds[a.cell??config.boats[a.boat]?.cell]).filter(Boolean):[];},get pathIds(){return state?.lastPath.map(i=>config.spaceIds[i])??[];},enter,leave,selectObject,projection,reset:()=>{leave();state=null;source=null;}};
@@ -46,3 +47,5 @@ export function installMatch({getGame,onChange,onReview}){
  }
  return api;
 }
+
+export function installMatch(options){const classic=installClassicMatch(options),island=installIslandMatch(options);let current=classic;return {get active(){return current.active;},get state(){return current.state;},get selectedId(){return current.selectedId;},get legalIds(){return current.legalIds;},get pathIds(){return current.pathIds;},enter(){current=options.getGame().runtime?.kind==='settlement'?island:classic;return current.enter();},leave(){classic.leave();island.leave();},reset(){classic.reset();island.reset();},selectObject(id){current.selectObject(id);},projection(){return current.projection();}};}
