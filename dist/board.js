@@ -112,10 +112,15 @@ function init3D() {
   } catch(e) { $('scene-error').hidden=false; console.error(e); }
 }
 function fit(top=false) {
-  if(!camera)return;
-  const objects=(previewGame||match?.projection()||game).objects.filter(o=>!o.deckId||o.drawn);let x=0,z=0,size=8;
-  if(objects.length){const minX=Math.min(...objects.map(o=>o.x-o.width)),maxX=Math.max(...objects.map(o=>o.x+o.width)),minZ=Math.min(...objects.map(o=>o.z-o.depth)),maxZ=Math.max(...objects.map(o=>o.z+o.depth));x=(minX+maxX)/2;z=(minZ+maxZ)/2;size=Math.max(5,maxX-minX,maxZ-minZ);}
-  const distance=Math.min(95,size*.92/Math.min(camera.aspect,1)); controls.target.set(x,0,z);camera.position.set(x+(top?0:distance*.65),distance,z+(top?.01:distance*.85));controls.update();
+ if(!camera||!world)return;
+ const rect=$('scene').getBoundingClientRect();if(!rect.width||!rect.height)return;
+ camera.aspect=rect.width/rect.height;camera.updateProjectionMatrix();world.updateMatrixWorld(true);
+ const bounds=new THREE.Box3().setFromObject(world);if(bounds.isEmpty())bounds.set(new THREE.Vector3(-4,0,-4),new THREE.Vector3(4,1,4));
+ const center=bounds.getCenter(new THREE.Vector3()),direction=new THREE.Vector3(top?0:.65,1,top?.001:.85).normalize();
+ camera.position.copy(center).add(direction);camera.lookAt(center);
+ const inverse=camera.quaternion.clone().invert(),tan=Math.tan(THREE.MathUtils.degToRad(camera.fov/2))*.80;let distance=5;
+ for(const x of [bounds.min.x,bounds.max.x])for(const y of [bounds.min.y,bounds.max.y])for(const z of [bounds.min.z,bounds.max.z]){const p=new THREE.Vector3(x,y,z).sub(center).applyQuaternion(inverse);distance=Math.max(distance,p.z+Math.abs(p.x)/(tan*camera.aspect),p.z+Math.abs(p.y)/tan);}
+ camera.position.copy(center).addScaledVector(direction,distance);controls.target.copy(center);controls.update();
 }
 function objectList() {
   const filter=$('filter').value;
