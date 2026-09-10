@@ -25,7 +25,8 @@ The server uses the signed-in Codex CLI with ChatGPT subscription usage limits. 
 - Ask Astra to build a draft when ready.
 - Review the proposed board on the canvas and apply or discard it.
 - Select a component and ask for a focused revision. The request includes the current game and selection.
-- Changes are staged and validated; applying them creates an undo snapshot. If manual edits occurred since the request began, the stale proposal is rejected.
+- The assistant maintains a compact design brief. While generating, the composer shows elapsed time and whether a viewport is included. You can revise an unapplied proposal without losing it; failures and cancellation preserve it. The proposal review lists actual additions, removals, component edits and rule changes. Changes are staged and validated; applying them creates an undo snapshot. If manual edits occurred since the request began, the stale proposal is rejected.
+- Short tile text is drawn on the component face and rotates with it. In Play, quarter-turn controls allow manual tile rotation.
 - Use Components for manual editing. Play supports free movement, dice, and deck actions. Print produces board overviews, cards, pieces, and rules.
 
 Conversation history is retained for the browser session only. Save game downloads the game document, not the chat. There is no account, cloud persistence, automatic rules enforcement, image generation, or autonomous playtesting. Components can contain up to 32 editable primitive parts (box, cylinder, cone, sphere, torus), with 1200 total parts per scene. Parts replace the component’s base shape. Older v1 game files load with empty part lists. Print output remains a symbolic footprint/token, not a 3D fabrication file. Visual options are generated geometry sketches, not image assets. With Include viewport enabled, each sent message includes a JPEG of the current 3D canvas; it does not capture other pages, UI panels, or the desktop. Review view asks for visual critique. Disable the checkbox for data-only conversations. 
@@ -44,3 +45,5 @@ Run `npm test` for game validation, deck behavior, provider response validation,
 - `server.mjs`: local static server and same-origin API adapter.
 
 An earlier exploratory Sites publication is not the submitted live app. The subscription-backed app requires this local server and a local Codex sign-in; uploading `dist` alone will not provide AI functionality.
+
+The generated **Gutter Duel** example (`?example=gutter-duel`) records a complete exploration-to-choice-to-game test, including its design brief and playtest hypotheses. It uses rotating gutter tiles, a shared water pawn and household paper for scores.

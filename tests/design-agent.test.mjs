@@ -38,3 +38,10 @@ test('viewport is sent as image input only when explicitly included',async()=>{
  assert.throws(()=>validateInput({...input(),viewportImage:'https://external.example/image.jpg'}));
  assert.throws(()=>validateInput({...input(),viewportImage:'data:text/html;base64,YQ=='}));
 });
+
+test('design brief preserves explicit unknowns and rejects oversized or malformed questions',()=>{
+ const brief={intent:'Share rainwater',players:'2',duration:'10 minutes',coreLoop:'Unknown',openQuestions:['Spatial tactics or prediction?']};
+ assert.deepEqual(validateReply({...reply(),brief}).brief,brief);
+ assert.throws(()=>validateReply({...reply(),brief:{...brief,openQuestions:[42]}}),/Invalid design question/);
+ assert.throws(()=>validateReply({...reply(),brief:{...brief,players:'x'.repeat(1501)}}),/Invalid design brief/);
+});

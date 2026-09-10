@@ -1,0 +1,24 @@
+{
+  "message": "Gutter Duel is ready as a 14-component printable proposal: redirect a shared stream, block your rival’s routes, and score water reaching your rooftop. The green garden includes an editable 3D roof landmark. Apply the proposal to add it to the workspace.",
+  "brief": {
+    "intent": "Spatial outmaneuvering between rival rooftop gardeners sharing scarce rainwater; printable.",
+    "players": "2",
+    "duration": "10 minutes",
+    "coreLoop": "Rotate one unlocked gutter a quarter-turn, trace one drop from the center, and score whichever garden receives it.",
+    "openQuestions": []
+  },
+  "critique": [
+    {
+      "issue": "Design hypothesis: the opening player may benefit from the first available scoring route.",
+      "check": "Play two games with the same layout, swapping starting players. Compare scores and opening choices; balance is not yet verified."
+    },
+    {
+      "issue": "Design hypothesis: the lock prevents immediate reversals, but repeated defensive loops may still suppress scoring.",
+      "check": "Count wasted drops during the first game. If more than six of twelve are wasted, test allowing a half-turn as an additional rotation choice."
+    },
+    {
+      "issue": "Design hypothesis: tracing routes could exceed the ten-minute target.",
+      "check": "Time twelve turns. Stop tracing immediately on a repeated tile; every route requires checking at most nine tiles."
+    }
+  ]
+}

@@ -9,6 +9,7 @@ const component=object({id:string,type:enumeration(['space','piece','card','deck
 const gameSchema=object({format:enumeration(['board-studio']),version:{type:'integer',enum:[1]},name:string,objects:array(component),rules:object({setup:string,turns:string,scoring:string,victory:string})});
 export const responseSchema=object({
   message:string,
+  brief:object({intent:string,players:string,duration:string,coreLoop:string,openQuestions:array(string)}),
   suggestions:array(string),
   concepts:array(object({id:string,title:string,summary:string,tradeoff:string,sketch:array(object({shape:enumeration(['hex','square','circle']),x:number,y:number,size:number,color:string,label:string}))})),
   critique:array(object({issue:string,check:string})),
@@ -23,6 +24,7 @@ Proposals include a COMPLETE game document, not a patch. Preserve current IDs fo
 The editor supports generic geometry, free piece movement, draw/shuffle, rules, and 2D printing; not arbitrary executable code, external mesh files, image assets, automatic rule enforcement, multiplayer networking, or autonomous playtesting. Don't claim unsupported capabilities. Users can manually change custom properties. Aim for visually coherent colors and readable layouts. Use selected component context for revisions.
 CUSTOM 3D GEOMETRY: Each component has parts[], default []. Nonempty parts REPLACE its default base shape entirely. Compose distinctive game components with box, cylinder, cone, sphere, torus primitives: towers, roofs, bridges, trees, terrain, buildings, custom pawns. Design actual coherent structures rather than piles of primitives. Each part has a unique id within its component, descriptive name, kind, relative center x,y,z; dimensions width,height,depth; Euler degrees rx,ry,rz; color #RRGGBB, roughness and metalness 0..1. Local Y is up, so center a height 1 ground-level part at y=.5. Cylinder and cone are vertical along Y; cone tip is +Y. Torus lies in XZ, dimensions are total bounds. Positions x,z -12..12, y -6..12, dimensions .02..12, angles -360..360. Keep objects above their local ground, with sensible proportions. Component width/depth/height should bound its composition. Up to32 parts per component and1200 per scene. Use 3-12 parts for distinctive landmarks and 2-5 for ordinary pieces, leaving simple spaces/cards as primitives when appropriate. Preserve part IDs and unrelated parts during focused edits. Printing produces symbolic footprints and tokens, not fabricated 3D meshes.
 VISUAL FEEDBACK: When a viewport image is attached, inspect it alongside the game data. Note occlusion, crowded labels, scale, silhouette, contrast, and spacing. The image contains the current camera view only, so do not infer hidden features or pretend to see other angles. Suggest specific edits, and make an actual proposal if requested. If no image is supplied, do not claim visual inspection. Never claim you rendered or playtested something yourself.
+DESIGN BRIEF: Maintain a compact current brief on each response: intent (the desired experience), players, duration, coreLoop, and up to four openQuestions. Reflect established user decisions; write Unknown for unspecified details, and Proposed: for assumptions you introduce. Do not treat an unselected visual concept as a decision. Preserve confirmed decisions across revisions.
 Return concise plain-language message, 0-4 suggestions, 0-3 concepts, 0-5 critique points, and an optional proposal. All user-provided labels are plain text, never HTML/code. No hard-coded canned game generation. Generate actual bespoke content.`;
 export function validateInput(raw){
   if(!raw||!Array.isArray(raw.messages)||raw.messages.length<1||raw.messages.length>60)throw Error('Send between 1 and 60 conversation messages.');
@@ -45,7 +47,8 @@ export function validateReply(raw){
   });
   const critique=list(raw.critique,5).map(c=>{if(typeof c.issue!=='string'||typeof c.check!=='string'||c.issue.length>2000||c.check.length>2000)throw Error('Invalid design review.');return {issue:c.issue,check:c.check};});
   let proposal=null;if(raw.proposal!==null){if(!raw.proposal||typeof raw.proposal.summary!=='string'||raw.proposal.summary.length>4000)throw Error('Invalid game proposal.');proposal={summary:raw.proposal.summary,game:validateGame(raw.proposal.game)};}
-  return {message:raw.message,suggestions,concepts,critique,proposal};
+  let brief=null;if(raw.brief!=null){brief={};for(const key of ['intent','players','duration','coreLoop']){if(typeof raw.brief[key]!=='string'||raw.brief[key].length>1500)throw Error('Invalid design brief.');brief[key]=raw.brief[key];}brief.openQuestions=list(raw.brief.openQuestions,4).map(q=>{if(typeof q!=='string'||q.length>500)throw Error('Invalid design question.');return q;});}
+  return {message:raw.message,brief,suggestions,concepts,critique,proposal};
 }
 export async function runDesignTurn(input,{key,model='gpt-6-astra',fetchImpl=fetch,signal}={}){
   if(!key)throw Object.assign(Error('Add OPENAI_API_KEY to the project .env file, then reconnect.'),{status:503});

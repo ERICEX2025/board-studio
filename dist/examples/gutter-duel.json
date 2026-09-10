@@ -1,0 +1,447 @@
+{
+  "format": "board-studio",
+  "version": 1,
+  "name": "Gutter Duel",
+  "objects": [
+    {
+      "id": "g-nw",
+      "parts": [],
+      "type": "space",
+      "name": "Northwest gutter",
+      "shape": "square",
+      "color": "#BFCED2",
+      "x": -3.4,
+      "z": -3.4,
+      "rotation": 0,
+      "width": 3,
+      "depth": 3,
+      "height": 0.12,
+      "text": "↑",
+      "deckId": null,
+      "drawn": false,
+      "order": 0,
+      "properties": [
+        {
+          "key": "startingDirection",
+          "value": "North"
+        }
+      ]
+    },
+    {
+      "id": "g-n",
+      "parts": [],
+      "type": "space",
+      "name": "North gutter",
+      "shape": "square",
+      "color": "#BFCED2",
+      "x": 0,
+      "z": -3.4,
+      "rotation": 0,
+      "width": 3,
+      "depth": 3,
+      "height": 0.12,
+      "text": "↑",
+      "deckId": null,
+      "drawn": false,
+      "order": 1,
+      "properties": [
+        {
+          "key": "startingDirection",
+          "value": "North"
+        }
+      ]
+    },
+    {
+      "id": "g-ne",
+      "parts": [],
+      "type": "space",
+      "name": "Northeast gutter",
+      "shape": "square",
+      "color": "#BFCED2",
+      "x": 3.4,
+      "z": -3.4,
+      "rotation": 0,
+      "width": 3,
+      "depth": 3,
+      "height": 0.12,
+      "text": "↑",
+      "deckId": null,
+      "drawn": false,
+      "order": 2,
+      "properties": [
+        {
+          "key": "startingDirection",
+          "value": "North"
+        }
+      ]
+    },
+    {
+      "id": "g-w",
+      "parts": [],
+      "type": "space",
+      "name": "West gutter",
+      "shape": "square",
+      "color": "#BFCED2",
+      "x": -3.4,
+      "z": 0,
+      "rotation": 0,
+      "width": 3,
+      "depth": 3,
+      "height": 0.12,
+      "text": "←",
+      "deckId": null,
+      "drawn": false,
+      "order": 3,
+      "properties": [
+        {
+          "key": "startingDirection",
+          "value": "West"
+        }
+      ]
+    },
+    {
+      "id": "g-c",
+      "parts": [],
+      "type": "space",
+      "name": "Center rain inlet",
+      "shape": "square",
+      "color": "#79B9CF",
+      "x": 0,
+      "z": 0,
+      "rotation": 0,
+      "width": 3,
+      "depth": 3,
+      "height": 0.12,
+      "text": "→\nSTART",
+      "deckId": null,
+      "drawn": false,
+      "order": 4,
+      "properties": [
+        {
+          "key": "startingDirection",
+          "value": "East"
+        }
+      ]
+    },
+    {
+      "id": "g-e",
+      "parts": [],
+      "type": "space",
+      "name": "East gutter",
+      "shape": "square",
+      "color": "#BFCED2",
+      "x": 3.4,
+      "z": 0,
+      "rotation": 0,
+      "width": 3,
+      "depth": 3,
+      "height": 0.12,
+      "text": "→",
+      "deckId": null,
+      "drawn": false,
+      "order": 5,
+      "properties": [
+        {
+          "key": "startingDirection",
+          "value": "East"
+        }
+      ]
+    },
+    {
+      "id": "g-sw",
+      "parts": [],
+      "type": "space",
+      "name": "Southwest gutter",
+      "shape": "square",
+      "color": "#BFCED2",
+      "x": -3.4,
+      "z": 3.4,
+      "rotation": 0,
+      "width": 3,
+      "depth": 3,
+      "height": 0.12,
+      "text": "↓",
+      "deckId": null,
+      "drawn": false,
+      "order": 6,
+      "properties": [
+        {
+          "key": "startingDirection",
+          "value": "South"
+        }
+      ]
+    },
+    {
+      "id": "g-s",
+      "parts": [],
+      "type": "space",
+      "name": "South gutter",
+      "shape": "square",
+      "color": "#BFCED2",
+      "x": 0,
+      "z": 3.4,
+      "rotation": 0,
+      "width": 3,
+      "depth": 3,
+      "height": 0.12,
+      "text": "↓",
+      "deckId": null,
+      "drawn": false,
+      "order": 7,
+      "properties": [
+        {
+          "key": "startingDirection",
+          "value": "South"
+        }
+      ]
+    },
+    {
+      "id": "g-se",
+      "parts": [],
+      "type": "space",
+      "name": "Southeast gutter",
+      "shape": "square",
+      "color": "#BFCED2",
+      "x": 3.4,
+      "z": 3.4,
+      "rotation": 0,
+      "width": 3,
+      "depth": 3,
+      "height": 0.12,
+      "text": "↓",
+      "deckId": null,
+      "drawn": false,
+      "order": 8,
+      "properties": [
+        {
+          "key": "startingDirection",
+          "value": "South"
+        }
+      ]
+    },
+    {
+      "id": "garden-a",
+      "parts": [
+        {
+          "id": "roof",
+          "name": "Flat rooftop slab",
+          "kind": "box",
+          "x": 0,
+          "y": 0.2,
+          "z": 0,
+          "rx": 0,
+          "ry": 0,
+          "rz": 0,
+          "width": 9.8,
+          "height": 0.4,
+          "depth": 2.4,
+          "color": "#66777A",
+          "roughness": 0.95,
+          "metalness": 0
+        },
+        {
+          "id": "back-wall",
+          "name": "Rear parapet",
+          "kind": "box",
+          "x": 0,
+          "y": 0.6,
+          "z": -1.05,
+          "rx": 0,
+          "ry": 0,
+          "rz": 0,
+          "width": 9.8,
+          "height": 0.4,
+          "depth": 0.3,
+          "color": "#CCD2C5",
+          "roughness": 0.9,
+          "metalness": 0
+        },
+        {
+          "id": "planter",
+          "name": "Raised terracotta bed",
+          "kind": "box",
+          "x": -2.5,
+          "y": 0.65,
+          "z": 0,
+          "rx": 0,
+          "ry": 0,
+          "rz": 0,
+          "width": 3.5,
+          "height": 0.5,
+          "depth": 1.5,
+          "color": "#B87655",
+          "roughness": 0.95,
+          "metalness": 0
+        },
+        {
+          "id": "herbs",
+          "name": "Low herb canopy",
+          "kind": "box",
+          "x": -2.5,
+          "y": 1,
+          "z": 0,
+          "rx": 0,
+          "ry": 0,
+          "rz": 0,
+          "width": 3.15,
+          "height": 0.3,
+          "depth": 1.2,
+          "color": "#78A66A",
+          "roughness": 1,
+          "metalness": 0
+        },
+        {
+          "id": "barrel",
+          "name": "Rain barrel",
+          "kind": "cylinder",
+          "x": 3.5,
+          "y": 1,
+          "z": 0,
+          "rx": 0,
+          "ry": 0,
+          "rz": 0,
+          "width": 1.25,
+          "height": 1.2,
+          "depth": 1.25,
+          "color": "#4C91AE",
+          "roughness": 0.65,
+          "metalness": 0.15
+        },
+        {
+          "id": "barrel-rim",
+          "name": "Barrel collection rim",
+          "kind": "torus",
+          "x": 3.5,
+          "y": 1.55,
+          "z": 0,
+          "rx": 0,
+          "ry": 0,
+          "rz": 0,
+          "width": 1.35,
+          "height": 0.2,
+          "depth": 1.35,
+          "color": "#315B70",
+          "roughness": 0.65,
+          "metalness": 0.15
+        }
+      ],
+      "type": "space",
+      "name": "Green roof garden",
+      "shape": "square",
+      "color": "#78A66A",
+      "x": 0,
+      "z": -6.8,
+      "rotation": 0,
+      "width": 9.8,
+      "depth": 2.4,
+      "height": 1.65,
+      "text": "A • NORTH GARDEN",
+      "deckId": null,
+      "drawn": false,
+      "order": 9,
+      "properties": [
+        {
+          "key": "owner",
+          "value": "A; receives every drop exiting the north edge."
+        }
+      ]
+    },
+    {
+      "id": "garden-b",
+      "parts": [],
+      "type": "space",
+      "name": "Amber roof garden",
+      "shape": "square",
+      "color": "#DCAA65",
+      "x": 0,
+      "z": 6.8,
+      "rotation": 0,
+      "width": 9.8,
+      "depth": 2.4,
+      "height": 0.2,
+      "text": "B • SOUTH GARDEN",
+      "deckId": null,
+      "drawn": false,
+      "order": 10,
+      "properties": [
+        {
+          "key": "owner",
+          "value": "B; receives every drop exiting the south edge."
+        }
+      ]
+    },
+    {
+      "id": "drop",
+      "parts": [],
+      "type": "piece",
+      "name": "Reusable rain drop",
+      "shape": "circle",
+      "color": "#248BC1",
+      "x": -6.5,
+      "z": 0,
+      "rotation": 0,
+      "width": 0.65,
+      "depth": 0.65,
+      "height": 0.35,
+      "text": "W",
+      "deckId": null,
+      "drawn": false,
+      "order": 11,
+      "properties": [
+        {
+          "key": "use",
+          "value": "Trace one drop each turn; return beside the board afterward. Never stored or spent."
+        }
+      ]
+    },
+    {
+      "id": "lock",
+      "parts": [],
+      "type": "piece",
+      "name": "Last rotated gutter marker",
+      "shape": "circle",
+      "color": "#B65559",
+      "x": -6.5,
+      "z": 2,
+      "rotation": 0,
+      "width": 0.65,
+      "depth": 0.65,
+      "height": 0.2,
+      "text": "L",
+      "deckId": null,
+      "drawn": false,
+      "order": 12,
+      "properties": [
+        {
+          "key": "use",
+          "value": "Mark the last rotated gutter near its corner. That tile cannot be rotated next turn."
+        }
+      ]
+    },
+    {
+      "id": "reference",
+      "parts": [],
+      "type": "card",
+      "name": "Gutter Duel reference",
+      "shape": "square",
+      "color": "#F1EADB",
+      "x": 10.5,
+      "z": 0,
+      "rotation": 0,
+      "width": 7,
+      "depth": 10,
+      "height": 0.04,
+      "text": "GUTTER DUEL\n2 players • target 10 minutes\n\nEach turn:\n1. Rotate one unlocked gutter 90° either way.\n2. Move L to that gutter.\n3. Start W at the center. Follow arrows.\n\nExit NORTH: A scores 1.\nExit SOUTH: B scores 1.\nExit EAST/WEST: no score.\nRevisit a tile: no score.\n\nArrows accept entry from every side.\nA garden scores even on its rival's turn.\n\nAfter 12 alternating turns, higher score wins. Equal scores: shared victory.\n\nHousehold paper + pencil: track A, B, and 12 turn tallies.\nInitial arrows:\n↑ ↑ ↑\n← → →\n↓ ↓ ↓",
+      "deckId": null,
+      "drawn": false,
+      "order": 13,
+      "properties": []
+    }
+  ],
+  "rules": {
+    "setup": "Use all 14 supplied components: nine gutter tiles, two garden destinations, one W water pawn, one L lock marker, and one reference card. Also supply household paper and a pencil to record scores and turns; no dice, deck, or additional water counters are needed. For printing, cut gutters separately so they can rotate; the 3D garden prints as a symbolic garden footprint. Arrange gutters in a 3×3 grid with a little space between tiles. North is the edge beside garden A, south beside garden B; these directions remain fixed regardless of where players sit. Initial arrows, read west to east: north row ↑ ↑ ↑; middle row ← → →; south row ↓ ↓ ↓. The blue middle tile is always the inlet. Set W and L beside the grid. Choose sides and select a starting player by mutual agreement; swap starters for a rematch. Write A: 0, B: 0, and Turns: 0 on paper. The two gardens have identical mechanical abilities.",
+    "turns": "Players alternate for twelve total turns, six each. On your turn you MUST rotate exactly one gutter 90 degrees clockwise or counterclockwise. You may rotate any of the nine gutters, including the inlet, except the tile currently marked L. No half-turn, tile movement, swapping, or passing is allowed. Move L to a corner of the tile you rotated, keeping the arrow visible; the previously marked tile becomes available. On the first turn no tile is locked.\n\nThen release exactly one drop: put W on the center tile and follow that tile's arrow to the orthogonally adjacent tile. On each entered tile, follow its arrow. Tiles accept water from every side: only their outgoing arrow matters, so there are no matching-port requirements. Immediately stop if water exits the grid or enters any tile already visited during this drop's route. Exiting any of the three north edges delivers to A; any south edge delivers to B. East or west exits waste the drop. Revisiting a tile also wastes it. Do not rotate anything during tracing. The lock never blocks water.\n\nRecord the resulting point, if any, return W beside the board, and add one turn tally. All arrows and the lock stay where they are. The other player takes the next turn. Perform rotations, tracing, and accounting manually in the editor or with printed components.",
+    "scoring": "Each drop delivered north gives A exactly 1 point; each drop delivered south gives B exactly 1 point, regardless of whose turn released it. Wasted drops score nothing. Record points on household paper. Completed deliveries grant no extra actions or water. W is a reusable tracing pawn representing that turn's single rainfall, not a stored resource. Twelve turns therefore produce at most twelve points in total.",
+    "victory": "End immediately after resolving and recording the twelfth drop. Each player has taken six turns. The player with more points wins. Equal scores, including 0–0, are a shared victory; there is no overtime. Ten minutes is the intended playtime, not a timed ending."
+  }
+}
