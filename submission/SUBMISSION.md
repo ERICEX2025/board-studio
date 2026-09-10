@@ -9,7 +9,7 @@ Board Studio is an AI-assisted workspace for inventing board games. Describe an 
 
 Astra designs structured game documents and composes editable 3D landmarks from primitive parts. With viewport sharing enabled, it can review the current camera view alongside the game data. The same document drives the editor, guided gameplay for three supported rule families, save/open, and optional paper and component STL exports.
 
-The primary demo is **Lantern Cove**, an original island settlement game inspired by familiar resource-building games. It follows the full journey from a prompt and visual directions through generation, a requested edit, and a playable browser match: gather resources, trade, build settlements, and upgrade cities. The computer opponent uses a local heuristic; two people can also share the browser. Networked multiplayer is not implemented.
+The primary demo is **Catan-like**, an original island settlement game inspired by familiar resource-building games. It follows the full journey from a prompt and visual directions through generation, a requested edit, and a playable browser match: gather resources, trade, build settlements, and upgrade cities. The computer opponent uses a local heuristic; two people can also share the browser. Networked multiplayer is not implemented.
 
 ## Use of Astra in the project
 - Adaptive design conversation, visual layout alternatives, and concrete mechanic critiques.
@@ -28,10 +28,11 @@ The project-specific editor, conversation flow, validation, game document format
 The builder should verify the event-time attribution above against the actual event start before submitting; do not claim pre-existing work as hackathon work.
 
 ## Demo
-The one-minute demo shows real interaction with the local app: prompt, visual directions, generation, revision, browser gameplay, and optional exports. Generation waits and iteration are shortened and accelerated portions are labeled. The recording does not claim real-time generation speed.
+The narrated one-minute demo uses large chapter captions and real interaction with the local app: prompt, visual directions, generation, revision, browser gameplay, and optional exports. Generation waits and iteration are shortened and accelerated portions are labeled. The recording does not claim real-time generation speed.
 
 - Repository: https://github.com/ERICEX2025/board-studio
-- Public demo video URL: pending final upload and signed-out link check.
+- Public demo page: https://board-studio-demo-eko.eric-ex.chatgpt.site
+- One-minute video: https://board-studio-demo-eko.eric-ex.chatgpt.site/island-demo-v2.mp4
 - Hosted AI app: none. Live generation runs locally with the builder's Codex sign-in. Do not submit the earlier static prototype as the live AI app.
 
 ## What works / limits

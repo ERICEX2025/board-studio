@@ -4,11 +4,11 @@ A local board-game studio that turns a conversation with Astra into an editable 
 
 ## Try it
 
-Open `http://127.0.0.1:4173/board.html?example=lantern-cove` after starting the server to preview **Lantern Cove**, an original island settlement game inspired by familiar resource-building games. Apply the draft, inspect its editable geometry, and enter Play to gather resources, trade, build settlements, and upgrade cities. Play locally against a heuristic computer opponent or share the browser for two-person play; there is no networked multiplayer.
+Open `http://127.0.0.1:4173/board.html?example=lantern-cove` after starting the server to preview **Catan-like**, an original island settlement game inspired by familiar resource-building games. Apply the draft, inspect its editable geometry, and enter Play to gather resources, trade, build settlements, and upgrade cities. Play locally against a heuristic computer opponent or share the browser for two-person play; there is no networked multiplayer.
 
 The main demo follows **prompt → visual directions → generate → revise → play**, with printing and STL export at the end. **Last Light** (`?example=last-light`), **Gutter Duel** (`?example=gutter-duel`), and the observatory geometry study are also available. These are saved Astra-generated examples, not canned responses to new prompts.
 
-See [submission materials](submission/SUBMISSION.md) and the [one-minute demo script](submission/DEMO-SCRIPT.md).
+Watch the [narrated one-minute demo](https://board-studio-demo-eko.eric-ex.chatgpt.site) or [open the video directly](https://board-studio-demo-eko.eric-ex.chatgpt.site/island-demo-v2.mp4). This public page presents the recorded demo; live AI generation runs locally. See [submission materials](submission/SUBMISSION.md) and the [demo outline](submission/DEMO-SCRIPT.md).
 
 ## Run
 
@@ -56,7 +56,7 @@ The generated **Gutter Duel** example (`?example=gutter-duel`) records a complet
 
 Gutter Duel now has 34 editable rooftop parts generated in a live Astra visual revision. The editor validated that all 14 IDs, rules and runtime fields were preserved. Open `?example=gutter-duel`, apply, then Play.
 
-Three declarative families run locally: **routing** (quarter-turns, locks, traced water, scoring, and a turn-limit ending), **rescue** (seeded weather, alternating initiative, movement limits, separate rescues and terminal scoring), and **settlement** (seeded resource production, a free resource choice when production misses, adjacent construction, city upgrades, 3-for-1 bank trade, and point/turn-limit endings). Lantern Cove uses the settlement family, with buildings on hex centers. The computer opponent uses local heuristics (two-ply for grid games); it is not an Astra call. Manual tabletop remains available for other mechanics. A common runtime generates both enforced behavior and rules prose. Save stores the design; completed matches have a separate downloadable record with the seed and action history.
+Three declarative families run locally: **routing** (quarter-turns, locks, traced water, scoring, and a turn-limit ending), **rescue** (seeded weather, alternating initiative, movement limits, separate rescues and terminal scoring), and **settlement** (seeded resource production, a free resource choice when production misses, adjacent construction, city upgrades, 3-for-1 bank trade, and point/turn-limit endings). Catan-like uses the settlement family, with buildings on hex centers. The computer opponent uses local heuristics (two-ply for grid games); it is not an Astra call. Manual tabletop remains available for other mechanics. A common runtime generates both enforced behavior and rules prose. Save stores the design; completed matches have a separate downloadable record with the seed and action history.
 
 **Test game** runs a bounded 12-match diagnostic with deterministic strategy and random policies, reports coarse warnings, and can send the evidence to Astra for a targeted proposal. Complete a match to review its actual log with Astra. Inspect/apply changes, then test again. No background model calls or automatic application. These small samples do not establish balance, enjoyment or human comprehension.
 
